@@ -1,0 +1,87 @@
+providers:
+  file:
+    directory: /data/PRG/edge-ingress-traefik/conf
+
+entryPoints:
+  traefik:
+    address: ":8080"
+    transport:
+      respondingTimeouts:
+        readTimeout: 2m
+        writeTimeout: 2m
+        idleTimeout: 3m
+      lifeCycle:
+        graceTimeOut: 20s
+        requestAcceptGraceTimeout: 0s
+    forwardedHeaders:
+      insecure: true
+  web:
+    address: ":80"
+    transport:
+      respondingTimeouts:
+        readTimeout: 2m
+        writeTimeout: 2m
+        idleTimeout: 3m
+      lifeCycle:
+        graceTimeOut: 20s
+        requestAcceptGraceTimeout: 0s
+    forwardedHeaders:
+      insecure: true
+    # \\ Redirection Configuration .
+    # http:
+    #   redirections:
+    #    entryPoint:
+    #      to: websecure
+    #      scheme: https
+  websecure:
+    address: ":443"
+    transport:
+      respondingTimeouts:
+        readTimeout: 2m
+        writeTimeout: 2m
+        idleTimeout: 3m
+      lifeCycle:
+        graceTimeOut: 20s
+        requestAcceptGraceTimeout: 0s
+    forwardedHeaders:
+      insecure: true
+
+log:
+  filePath: /data/PRG/edge-ingress-traefik/logs/stdout.log
+  format: json
+  # Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO
+  level: ERROR
+
+accessLog:
+  filepath: /data/PRG/edge-ingress-traefik/logs/access.log
+  format: json
+  bufferingSize: 1000
+  fields:
+    names:
+      StartUTC: drop
+    headers:
+      defaultMode: keep
+
+api:
+  dashboard: true
+  debug: false
+  # \\ in dev envionment.
+  # insecure: true 
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+    entryPoint: traefik
+
+ping:
+  entryPoint: traefik
+  terminatingStatusCode: 503
+
+serversTransport:
+  maxIdleConnsPerHost: 5
+  forwardingTimeouts:
+    dialTimeout: 30s
+    responseHeaderTimeout: 0s
+    idleConnTimeout: 1m
