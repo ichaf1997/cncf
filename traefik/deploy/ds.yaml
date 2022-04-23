@@ -37,7 +37,7 @@ spec:
         - name: traefik
           image: harbor.inm.com/docker.io/library/traefik:v2.6
           args:
-            - --configfile=/traefik/traefik.yaml
+            - --configfile=/etc/traefik/traefik.yaml
           ports:
             - name: web
               containerPort: 80
