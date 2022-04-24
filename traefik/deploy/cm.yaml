@@ -7,14 +7,6 @@ metadata:
     app: traefik
 data: 
   traefik.yaml: |
-    kind: ConfigMap
-    apiVersion: v1
-    metadata:
-      name: traefik-configfile
-      labels:
-        app: traefik
-    data: 
-      traefik.yaml: |
     providers:
       kubernetesingress:
         labelSelector: "controller=traefik"
