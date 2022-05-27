@@ -12,6 +12,8 @@ data:
         labelSelector: "controller=traefik"
       kubernetesCRD:
         labelSelector: "controller=traefik"
+        allowCrossNamespace: true
+        allowExternalNameServices: true
 
     entryPoints:
       traefik:
